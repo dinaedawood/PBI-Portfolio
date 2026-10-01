@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Portfolio & Performance Report</title>
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --primary: #1e3a8a;
+            --border-color: #cbd5e1;
+            --negative: #dc2626;
+            --positive: #16a34a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 20px;
+            display: block;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* HIDE RADIO BUTTON CONTROLS */
+        .tab-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* NAVIGATION BAR FOR 3 BUTTONS */
+        .tab-nav-bar {
+            display: flex;
+            gap: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn-label {
+            padding: 12px 24px;
+            background: #f1f5f9;
+            color: #64748b;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            flex: 1 1 200px;
+        }
+
+        .tab-btn-label:hover {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        /* HIDE ALL DASHBOARD SECTIONS BY DEFAULT */
+        .dashboard-section {
+            display: none;
+        }
+
+        /* ACTIVE TAB BUTTON STYLES */
+        #tab-overview-input:checked ~ .tab-nav-bar .btn-overview,
+        #tab-performance-input:checked ~ .tab-nav-bar .btn-performance,
+        #tab-finance-input:checked ~ .tab-nav-bar .btn-finance {
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+            border-color: var(--primary);
+        }
+
+        /* DISPLAY ACTIVE TAB CONTENT */
+        #tab-overview-input:checked ~ #overview-section,
+        #tab-performance-input:checked ~ #performance-section,
+        #tab-finance-input:checked ~ #finance-section {
+            display: block;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-top: 0;
+            color: var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        h2 {
+            color: #2563eb;
+            font-size: 20px;
+            margin-top: 30px;
+        }
+
+        .img-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        .explanation-panel {
+            margin-top: 35px;
+            padding: 25px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-sizing: border-box;
+        }
+
+        .explanation-panel h3 {
+            margin-top: 0;
+            color: #0f172a;
+            font-size: 20px;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .explanation-panel p {
+            line-height: 1.8;
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .metric-card span {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-card strong {
+            display: block;
+            font-size: 22px;
+            color: #0f172a;
+            margin-top: 4px;
+        }
+
+        .card {
+            background: #f1f5f9;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #334155;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .card ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .card li {
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .neg, .highlight-negative { color: var(--negative) !important; font-weight: bold; }
+        .pos, .highlight-positive { color: var(--positive) !important; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- PURE CSS RADIO BUTTON CONTROLS -->
+        <input type="radio" id="tab-overview-input" name="dashboard-tabs" class="tab-input" checked>
+        <input type="radio" id="tab-performance-input" name="dashboard-tabs" class="tab-input">
+        <input type="radio" id="tab-finance-input" name="dashboard-tabs" class="tab-input">
+
+        <!-- TOP NAVIGATION BUTTONS -->
+        <div class="tab-nav-bar">
+            <label for="tab-overview-input" class="tab-btn-label btn-overview">1. Acquisitions Overview</label>
+            <label for="tab-performance-input" class="tab-btn-label btn-performance">2. Acquisitions Performance</label>
+            <label for="tab-finance-input" class="tab-btn-label btn-finance">3. Finance Metrics</label>
+        </div>
+
+        <!-- ==================== TAB 1: ACQUISITIONS OVERVIEW ==================== -->
+        <div id="overview-section" class="dashboard-section">
+            <h1>Acquisitions Overview</h1>
+            
+            <div class="img-container">
+                <img src="Ac overview.png" alt="Acquisitions Overview Dashboard">
+            </div>
+
+            <div class="explanation-panel">
+                <h3>📈 Acquisitions Overview Performance Insights</h3>
+                <p>This metrics dashboard monitors cumulative investment pipeline sizing, active enterprise deal multipliers, historical timelines, and partner portfolios across global operational regions.</p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card" style="border-left-color: #10b981;">
+                        <span>Deal Pipeline</span>
+                        <strong>41 Acquisitions</strong>
+                    </div>
+                    <div class="metric-card" style="border-left-color: #10b981;">
+                        <span>Capital Injected</span>
+                        <strong>$180.75M</strong>
+                    </div>
+                    <div class="metric-card" style="border-left-color: #10b981;">
+                        <span>Acquired Volume</span>
+                        <strong>$183.10M</strong>
+                    </div>
+                    <div class="metric-card" style="border-left-color: #10b981;">
+                        <span>ARR / NRR Pool</span>
+                        <strong>$119.81M / $63.29M</strong>
+                    </div>
+                </div>
+
+                <p><strong>Portfolio Scale & Multipliers Breakdown:</strong> The dashboard tracks a total portfolio volume of 41 completed acquisitions, aggregating $180.75M in cumulative Invested Capital which has successfully unlocked $183.10M in gross Acquired Revenues. This indicates highly balanced asset sourcing, with an Acquired Revenue Multiplier tracking at 0.99x and an ARR Multiplier baseline establishing a strong corporate footprint at 1.51x. The software revenue mix remains robust, driven by an Acquired ARR anchor pool of $119.81M and backed by an Acquired NRR pool of $63.29M.</p>
+                
+                <p><strong>Historical Funding & Regional Matrix:</strong> Trailing multi-year data profiles a steep compounding curve between 2016 and 2021, where both Acquired ARR (orange line) and Acquired NRR (dark line) reflect strong upward scalability. Funding velocity peaked dramatically in 2021, generating a maximum expansion of $69.12M in acquired revenues mapping against $67.44M in active capital investments. This transaction ledger records geographic distribution across Australia & New Zealand, BENELUX, Scandinavia, and Canada, mapping precise funding allocations among primary stakeholders like Chris Malouf, Joe Farrugia, and institutional partner Valstone.</p>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: ACQUISITIONS PERFORMANCE ==================== -->
+        <div id="performance-section" class="dashboard-section">
+            <h1>Acquisitions Performance</h1>
+            
+            <div class="img-container">
+                <img src="AC performance.png" alt="Acquisitions Performance Dashboard">
+            </div>
+
+            <div class="explanation-panel">
+                <h3>📊 Acquisitions Performance Yield Insights</h3>
+                <p>This metrics dashboard focuses on core asset efficiency velocities, operational expansion growth rates, return margins, and individual corporate segment yields.</p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card" style="border-left-color: #0284c7;">
+                        <span>Total EBIDA</span>
+                        <strong>40.11M</strong>
+                    </div>
+                    <div class="metric-card" style="border-left-color: #0284c7;">
+                        <span>ARR Volume</span>
+                        <strong>110.01M</strong>
+                    </div>
+                    <div class="metric-card" style="border-left-color: #0284c7;">
+                        <span>ARR Growth</span>
+                        <strong class="pos">83.86%</strong>
+                    </div>
+                    <div class="metric-card" style="border-left-color: #0284c7;">
+                        <span>Organic Growth</span>
+                        <strong class="pos">102.74%</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: FINANCE METRICS ==================== -->
+        <div id="finance-section" class="dashboard-section">
+            <h1>Finance Metrics Dashboard</h1>
+            
+            <div class="img-container">
+                <img src="FM.png" alt="Dina Managing Talents Finance Metrics Dashboard">
+            </div>
+
+            <h2>Dashboard Analysis & Key Elements</h2>
+            <p>This executive dashboard displays financial performance metrics cross-referenced by company IDs and names over selectable time filters (Years, Quarters, and Months).</p>
+
+            <div class="metrics-grid">
+                <!-- Card 1 -->
+                <div class="card">
+                    <h3>High-Level KPIs</h3>
+                    <ul>
+                        <li><strong>EBIDA:</strong> Formidable absolute standard sitting at <strong>2.45M</strong>.</li>
+                        <li><strong>InvestedCapMA:</strong> Total capital allocated to projects is at <strong>240M</strong>.</li>
+                        <li><strong>DeployedCapMA:</strong> Actively deployed strategic capital stands at <strong>173.13M</strong>.</li>
+                        <li><strong>ARRPL:</strong> Currently experiencing a deficit pool sitting at <span class="highlight-negative">-64.42M</span>.</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card" style="border-left-color: #10b981;">
+                    <h3>Capital & Profitability</h3>
+                    <ul>
+                        <li><strong>ROIC YTD:</strong> Year-to-date Return on Invested Capital stands at a minor <span class="highlight-positive">0.03%</span>.</li>
+                        <li><strong>RODC YTD:</strong> Year-to-date Return on Deployed Capital hits <strong>0.24%</strong>.</li>
+                        <li><strong>ARR Share% YTD:</strong> Captures a heavy operational bulk at <strong>44.83%</strong>.</li>
+                        <li><strong>EBITDA% YTD:</strong> Slightly compressed margin at <span class="highlight-negative">-0.56%</span>.</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card" style="border-left-color: #8b5cf6;">
+                    <h3>Visualizations Breakdown</h3>
+                    <ul>
+                        <li><strong>Doughnut Charts:</strong> Detail EBIDA, Invested Capital, Deployed Capital, and ARRPL distribution across specific Company IDs (such as MAC, CIS, SW1).</li>
+                        <li><strong>Horizontal Bar Charts:</strong> Rank individual Company performance benchmarks for both ROIC and RODC YTD metrics.</li>
+                        <li><strong>Vertical Bar Chart:</strong> Compares the exact breakdown of ARR Share% YTD per corporate entity.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+```
