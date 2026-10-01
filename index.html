@@ -34,6 +34,24 @@
             border: 1px solid #e2e8f0;
         }
 
+        /* BRANDING HEADER WITH DINA ANALYTICS LOGO */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .brand-logo {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            margin: -15px 0; /* Offsets excess top/bottom padding in the image */
+        }
+
         /* HIDE RADIO BUTTON CONTROLS */
         .tab-input {
             position: absolute;
@@ -211,6 +229,11 @@
 <body>
 
     <div class="container">
+
+        <!-- BRANDING HEADER WITH DINA ANALYTICS LOGO -->
+        <header class="brand-header">
+            <img src="Gemini_Generated_Image_x2u96lx2u96lx2u9.jfif" alt="Dina Analytics Logo" class="brand-logo">
+        </header>
         
         <!-- PURE CSS RADIO BUTTON CONTROLS -->
         <input type="radio" id="tab-overview-input" name="dashboard-tabs" class="tab-input" checked>
@@ -344,5 +367,3 @@
 
 </body>
 </html>
-
-```
